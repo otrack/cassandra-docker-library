@@ -63,6 +63,8 @@ if [ "$1" = 'cassandra' ]; then
 	_sed-in-place "$CASSANDRA_CONF/cassandra.yaml" \
 		-r 's/(- seeds:).*/\1 "'"$CASSANDRA_SEEDS"'"/'
 
+	echo "auto_bootstrap: true" >> "$CASSANDRA_CONF/cassandra.yaml"
+	
 	for yaml in \
 		broadcast_address \
 		broadcast_rpc_address \
@@ -72,6 +74,8 @@ if [ "$1" = 'cassandra' ]; then
 		num_tokens \
 		rpc_address \
 		start_rpc \
+		auto_bootstrap \
+		endpoint_snitch \
 	; do
 		var="CASSANDRA_${yaml^^}"
 		val="${!var}"
