@@ -11,6 +11,8 @@ RUN set -eux; \
 	groupadd -r cassandra --gid=999; \
 	useradd -r -g cassandra --uid=999 cassandra
 
+RUN sed -i 's/htt[p|ps]:\/\/archive.ubuntu.com\/ubuntu\//mirror:\/\/mirrors.ubuntu.com\/mirrors.txt/g' /etc/apt/sources.list
+
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \

@@ -90,7 +90,7 @@ if [ "$1" = 'cassandra' ]; then
 		val="${!var}"
 		if [ "$val" ]; then
 			_sed-in-place "$CASSANDRA_CONF/cassandra-rackdc.properties" \
-				-r 's/^('"$rackdc"'=).*/\1 '"$val"'/'
+				-r 's/^('"$rackdc"'=).*/\1'"$val"'/'
 		fi
 	done
 fi
