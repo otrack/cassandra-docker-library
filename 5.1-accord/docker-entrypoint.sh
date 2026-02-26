@@ -69,7 +69,6 @@ if [ "$1" = 'cassandra' ]; then
 		broadcast_address \
 		broadcast_rpc_address \
 		cluster_name \
-		endpoint_snitch \
 		listen_address \
 		num_tokens \
 		rpc_address \
