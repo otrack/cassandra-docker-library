@@ -4,7 +4,8 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jammy
+
 
 # explicitly set user/group IDs
 RUN set -eux; \
