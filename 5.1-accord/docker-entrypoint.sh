@@ -41,7 +41,7 @@ _sed-in-place() {
 }
 
 if [ "$1" = 'cassandra' ]; then
-	: ${CASSANDRA_RPC_ADDRESS='localhost'}
+	: ${CASSANDRA_RPC_ADDRESS='0.0.0.0'}
 
 	: ${CASSANDRA_LISTEN_ADDRESS='auto'}
 	if [ "$CASSANDRA_LISTEN_ADDRESS" = 'auto' ]; then
@@ -69,6 +69,7 @@ if [ "$1" = 'cassandra' ]; then
 		broadcast_address \
 		broadcast_rpc_address \
 		cluster_name \
+		endpoint_snitch \
 		listen_address \
 		num_tokens \
 		rpc_address \
@@ -80,10 +81,10 @@ if [ "$1" = 'cassandra' ]; then
 		var="CASSANDRA_${yaml^^}"
 		val="${!var}"
 		if [ "$val" ]; then
-		    echo "HERE:"${var}" => "${val}
 		    _sed-in-place "$CASSANDRA_CONF/cassandra.yaml" \
-				  -r 's/^([[:space:]]*)('"$yaml"':).*/\1\2 '"$val"'/'
-
+				  -r 's/^([[:space:]]*)('"$yaml"':).*/\1\2 '"$val"'/' 
+		    _sed-in-place "$CASSANDRA_CONF/cassandra.yaml" \
+				  -r 's/^(# )?('"$yaml"':).*/\2 '"$val"'/' # substitute when commented out at the first level
 		fi
 	done
 
