@@ -41,7 +41,7 @@ _sed-in-place() {
 }
 
 if [ "$1" = 'cassandra' ]; then
-	: ${CASSANDRA_RPC_ADDRESS='0.0.0.0'}
+	: ${CASSANDRA_RPC_ADDRESS='localhost'}
 
 	: ${CASSANDRA_LISTEN_ADDRESS='auto'}
 	if [ "$CASSANDRA_LISTEN_ADDRESS" = 'auto' ]; then
@@ -76,12 +76,15 @@ if [ "$1" = 'cassandra' ]; then
 		start_rpc \
 		auto_bootstrap \
 		endpoint_snitch \
+		ephemeral_read_enabled \
 	; do
 		var="CASSANDRA_${yaml^^}"
 		val="${!var}"
 		if [ "$val" ]; then
-			_sed-in-place "$CASSANDRA_CONF/cassandra.yaml" \
-				-r 's/^(# )?('"$yaml"':).*/\2 '"$val"'/'
+		    echo "HERE:"${var}" => "${val}
+		    _sed-in-place "$CASSANDRA_CONF/cassandra.yaml" \
+				  -r 's/^([[:space:]]*)('"$yaml"':).*/\1\2 '"$val"'/'
+
 		fi
 	done
 
